@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# See `man sbatch` or https://slurm.schedmd.com/sbatch.html for descriptions of sbatch options.
+#SBATCH --job-name=preprocess       # A nice readable name of your job, to see it in the queue
+#SBATCH --nodes=1                   # Number of nodes to request
+#SBATCH --cpus-per-task=1           # Number of CPUs to request
+#SBATCH --gpus=1                    # Number of GPUs to request
+#SBATCH --error=preprocess.err
+#SBATCH --output=preprocess.out
+#SBATCH --time=10-10:10:10
+
+source /opt/conda/etc/profile.d/conda.sh
+# Activate your environment, you have to create it first
+conda activate cladviz
+
+# python3 cladcon.py
+# ./preprocess.sh
+# ./runpreprocess.sh '-1' '/home/schrader/cladcon_model/GSE211692_RAW.tar' '/home/schrader/cladcon_model/preprocessed_full' '/home/schrader/cladcon_model/workingdir_f' '/home/schrader/cladcon_model/mapping_file.txt'
+
+./preprocess.sh '-1' '/home/schrader/cladcon_model/GSE211692_RAW.tar' '/home/schrader/cladcon_model/preprocessed_tissue' '/home/schrader/cladcon_model/workingdir_t' '/home/schrader/cladcon_model/mapping_file.txt' '0' 'tissue'
+./preprocess.sh '-1' '/home/schrader/cladcon_model/GSE211692_RAW.tar' '/home/schrader/cladcon_model/preprocessed_comb' '/home/schrader/cladcon_model/workingdir_c' '/home/schrader/cladcon_model/mapping_file.txt' '0' 'comb'
+./preprocess.sh '-1' '/home/schrader/cladcon_model/GSE211692_RAW.tar' '/home/schrader/cladcon_model/preprocessed_full' '/home/schrader/cladcon_model/workingdir_f' '/home/schrader/cladcon_model/mapping_file.txt' '0' 'full'

@@ -1,3 +1,6 @@
+'''Adapted from https://github.com/pfnet-research/head_model/tree/master'''
+
+
 from lib.dataset import dataset as D
 from lib.dataset import sample_set as S
 

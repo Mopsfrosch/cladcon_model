@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# See `man sbatch` or https://slurm.schedmd.com/sbatch.html for descriptions of sbatch options.
+#SBATCH --job-name=cladcon          # A nice readable name of your job, to see it in the queue
+#SBATCH --nodes=1                   # Number of nodes to request
+#SBATCH --cpus-per-task=1           # Number of CPUs to request
+#SBATCH --gpus=1                    # Number of GPUs to request
+#SBATCH --error=cladcon.err
+#SBATCH --output=cladcon.out
+#SBATCH --time=10-10:10:10
+
+source /opt/conda/etc/profile.d/conda.sh
+# Activate your environment, you have to create it first
+conda activate cladviz
+
+
+python3 cladcon.py --epochs 1 --nEst 1 --featurenum 10 --task 'comb'

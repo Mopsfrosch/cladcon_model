@@ -1,3 +1,6 @@
+'''Adapted from https://github.com/pfnet-research/head_model/tree/master'''
+
+
 INVALID_FEATURE_NAMES = ('hsa-miR-1290',
                          'hsa-miR-451a',
                          'hsa-miR-5100',

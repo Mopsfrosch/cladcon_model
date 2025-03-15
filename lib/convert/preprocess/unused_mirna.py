@@ -1,3 +1,6 @@
+'''Adapted from https://github.com/pfnet-research/head_model/tree/master'''
+
+
 UNUSED_FEATURE_NAMES = ('hsa-miR-2467-3p',
                         'hsa-miR-4448',
                         'hsa-miR-4516',

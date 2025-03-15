@@ -1,3 +1,6 @@
+'''Adapted from https://github.com/pfnet-research/head_model/tree/master'''
+
+
 class IDConverter(object):
 
     def __init__(self):

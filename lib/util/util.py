@@ -1,3 +1,6 @@
+'''Adapted from https://github.com/pfnet-research/head_model/tree/master'''
+
+
 import numpy as np
 
 

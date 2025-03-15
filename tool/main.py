@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+'''Adapted from https://github.com/pfnet-research/head_model/tree/master'''
+
+
 import argparse
 import os
 
@@ -70,7 +73,7 @@ if __name__ == '__main__':
     parser.add_argument('--out-dir', '-o', type=str, default='out')
     parser.add_argument('--num-fold', '-k', type=int, default=5)
     parser.add_argument('--dataset', '-d', type=str, default='comb', #full,our
-                        choices=('full', 'our', 'test_ternary_large',
+                        choices=('full', 'comb','tissue', 'test_ternary_large',
                                  'test_binary_large', 'test_binary_small','comb'))
     parser.add_argument('--use-ngs-collated-mirna-only', '-u',
                         action='store_true')
@@ -98,17 +101,16 @@ if __name__ == '__main__':
                         'from feature dimensions.')
     parser.add_argument('--random_state', '-rs', type=int, default='0')
     args = parser.parse_args()
+    print('args: ',args)
     st = time.time()
     tracemalloc.start()
 
     if args.dataset == 'full':
         dir_names = sample_directory.DIR_NAMES
     elif args.dataset == 'comb':
-        print('use comb')
         dir_names = sample_directory.DIR_NAMES_comb
-    elif args.dataset == 'our':
-        print('use ours')
-        dir_names = sample_directory.DIR_NAMES_OUR
+    elif args.dataset == 'tissue':
+        dir_names = sample_directory.DIR_NAMES_tis
     elif args.dataset == 'test_ternary_large':
         dir_names = sample_directory.TEST_DIR_NAMES_TERNARY_LARGE
     elif args.dataset == 'test_binary_large':
@@ -140,52 +142,13 @@ if __name__ == '__main__':
     
 
     d = fetch(args.in_dir, dir_names, preprocess_filters)
-    #print('d: ',d)
     feature_names = d[0]
-    print('feature names: ',type(feature_names),len(feature_names), feature_names[0])
     label_names = d[1]
     feature_vectors = d[2]
-    print('feature vectors: ',type(feature_vectors), feature_vectors.shape, feature_vectors[0])
     instance_names = d[3]
-    print('instance_names: ',type(instance_names),instance_names.shape)
     labels = d[4]
-    print('types: ',type(feature_names),type(label_names),type(feature_vectors),type(labels))
 
-    
 
-    # data_df = pd.DataFrame(feature_vectors, columns=feature_names)
-    # data_df.insert(0, 'instance_names', instance_names)
-    # data_df.insert(1, 'labels', labels)
-    # data_df.to_csv('raw_HEAD_data.csv')
-
-    # data = pd.read_csv('input_all_HEAD_vsn_nonlog.csv')
-    # data = data.drop(['NA'], axis=1)
-    # data = data.T
-    # new_header = data.iloc[0] #grab the first row for the header
-    # data = data[1:] #take the data less the header row
-    # data.columns = new_header #set the header row as the df header    
-    # #labels = raw['labels'].to_numpy()# values.tolist()
-    # #instance_names = raw['ID_REF'].to_numpy() #values.tolist()
-    # #raw = raw.drop('labels',axis=1)
-    # #raw = raw.drop('ID_REF',axis=1)
-    # print('data: ',data)
-    # feature_names = new_header#np.array(raw.columns.values.tolist())
-    # print('feature vectors1: ',type(feature_vectors), feature_vectors.shape, feature_vectors[0])
-    # feature_vectors = data.values.tolist()#match_order(instance_names,feature_names) #values.tolist()
-    # print('feature vectors2: ',type(feature_vectors), feature_vectors.shape, feature_vectors[0])
-    # print('labels: ',labels.shape)
-    # print('instance_names: ',instance_names.shape)
-    # print('feature_vectors: ',feature_vectors.shape)
-    # print('label_names: ',len(label_names))
-    # print('feature_names: ',feature_names)
-
-    # data_df = pd.DataFrame(feature_vectors, columns=feature_names)
-    # data_df.insert(0, 'instance_names', instance_names)
-    # data_df.insert(1, 'labels', labels)
-    # data_df.to_csv('raw_HEAD_data_nonlog.csv')
-
-    # feature_vectors, instance_names, labels = util.shuffle(
-    #     feature_vectors, instance_names, labels)
 
     postprocess_filters = []
     if args.whiten_after_split:
