@@ -47,10 +47,7 @@ class ClassificationModel:
         self.binary = args.binary
         self.fold = fold
         self.task = args.task
-        
-
         self.batch_size = 32
-        
         self.epochs = args.epochs
         self.rate = 0.0001
 
@@ -60,9 +57,10 @@ class ClassificationModel:
   
     
     def build_model(self, training_set):
-        data_input = keras.Input(shape=(self.image_height, self.image_width, self.channel))
+        data_input = keras.Input(shape=(self.image_height, self.image_width, 1))
         kernel_size = (self.image_height,self.window)
     
+        data_features = layers.Conv2D(self.filter, kernel_size, padding='same', activation='relu')(data_input)
         data_features = layers.BatchNormalization()(data_features)
         data_features = layers.MaxPooling2D(padding='same')(data_features)
         data_features = layers.Dropout(.4, input_shape=(2,))(data_features)
@@ -146,11 +144,11 @@ class ClassificationModel:
         if True:
             resu = pd.concat([Y_test, y_pred], axis=1)
             if self.task=='comb':
-                resu.to_csv('fixed_results/comb_'+str(self.fold)+'_results.csv',index=None)
+                resu.to_csv('results/comb_'+str(self.fold)+'_results.csv',index=None)
             if self.task=='full':
-                resu.to_csv('fixed_results/full_'+str(self.fold)+'_results.csv',index=None)
+                resu.to_csv('results/full_'+str(self.fold)+'_results.csv',index=None)
             if self.task=='tissue':
-                resu.to_csv('fixed_results/tissue_'+str(self.fold)+'_results.csv',index=None)
+                resu.to_csv('results/tissue_'+str(self.fold)+'_results.csv',index=None)
 
         print('Classification Report')
        
@@ -167,13 +165,13 @@ class ClassificationModel:
         cfm = confusion_matrix(Y_test,y_pred)
         print(cfm)
 
-        cmd = ConfusionMatrixDisplay.from_predictions(
-            Y_test, y_pred
-        )
-        cmd.figure_.savefig(self.folder+'/'+str(self.i)+'_confusion_matrix.png')
+        # cmd = ConfusionMatrixDisplay.from_predictions(
+        #     Y_test, y_pred
+        # )
+        # cmd.figure_.savefig(str(self.task)+'_confusion_matrix.png')
 
-        report = self.sensitivity_and_specificity(Y_test, y_pred)
-        print(report)
+        senspec = self.sensitivity_and_specificity(Y_test, y_pred)
+        print(senspec)
         try:
             tn, fp, fn, tp = confusion_matrix(Y_test, y_pred).ravel()
         except:

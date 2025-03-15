@@ -11,7 +11,9 @@
 
 source /opt/conda/etc/profile.d/conda.sh
 # Activate your environment, you have to create it first
-conda activate cladviz
+conda activate cladcon
 
 
-python3 cladcon.py --epochs 1 --nEst 1 --featurenum 10 --task 'comb'
+python3 cladcon.py --task 'tissue'
+python3 cladcon.py --task 'comb'
+python3 cladcon.py --task 'full'

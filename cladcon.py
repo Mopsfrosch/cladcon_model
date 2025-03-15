@@ -73,6 +73,7 @@ def main(args):
 
 
         if args.binary==1:
+            print('BINARY')
             y_train = get_binary_labels(y_train)
             y_test = get_binary_labels(y_test)
             model_tree = RandomForestClassifier(random_state=args.seed, n_estimators=args.nEst, max_depth=20)
