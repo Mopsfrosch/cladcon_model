@@ -121,7 +121,7 @@ if __name__ == '__main__':
     parser.add_argument('--data',type=float,default=1.0, help='percentage of data used for training')
     parser.add_argument('--featurenum',type=int,default=100, help='number of selected features')
     parser.add_argument('--batch',type=int,default=32, help='batch size')
-    parser.add_argument('--nEst',type=int,default=100, help='number of estimators')
+    parser.add_argument('--nEst',type=int,default=10, help='number of estimators')
     parser.add_argument('--seed',type=int,default=0)
     parser.add_argument('--binary',type=int,default=0)
     parser.add_argument('--task',type=str,default='tissue', choices=('full', 'comb','tissue'), help='tissue, comb, full')
